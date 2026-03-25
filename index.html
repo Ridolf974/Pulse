@@ -56,6 +56,9 @@
   --radius:12px;
   --radius-lg:18px;
   --radius-xl:24px;
+
+  --error:#A32D2D;
+  --error-dim:#FCEBEB;
 }
 
 @media(prefers-color-scheme:dark){
@@ -90,7 +93,7 @@ body{
 }
 
 /* ── Layout ── */
-.screen{display:none;flex-direction:column;height:100vh;height:100dvh}
+.screen{display:none;flex-direction:column;height:100dvh}
 .screen.active{display:flex}
 
 .navbar{
@@ -431,16 +434,13 @@ body{
   font-size:10px;font-weight:700;color:var(--indigo);
   margin-bottom:5px;text-transform:uppercase;letter-spacing:0.6px;
 }
-.form-input{
+.form-input,.form-select{
   font-size:15px;background:transparent;border:none;outline:none;
   color:var(--text);width:100%;font-family:inherit;
 }
 .form-input::placeholder{color:var(--text3)}
 textarea.form-input{resize:none;min-height:72px;line-height:1.5}
-.form-select{
-  font-size:15px;background:transparent;border:none;outline:none;
-  color:var(--text);width:100%;font-family:inherit;-webkit-appearance:none;
-}
+.form-select{-webkit-appearance:none;}
 .form-select option{background:var(--surface);color:var(--text)}
 .rh-hint-form{
   background:var(--coral-dim);border:1px solid rgba(255,95,95,0.2);
@@ -1232,6 +1232,18 @@ function saveApiKey(){
   goTo('liste');
 }
 
+async function callAnthropic(prompt,maxTokens=500){
+  const r=await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+    body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:maxTokens,messages:[{role:'user',content:prompt}]})
+  });
+  const data=await r.json();
+  return data.content.map(c=>c.text||'').join('').trim();
+}
+
+function getNewId(){return issues.length?Math.max(...issues.map(i=>i.id))+1:1;}
+
 function goTo(screen){
   if(screen==='nouveau'&&!getApiKey()){
     goTo('config');
@@ -1239,8 +1251,8 @@ function goTo(screen){
   }
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById('screen-'+screen).classList.add('active');
-  document.querySelectorAll('.tabbar-btn').forEach(b=>b.classList.remove('active'));
-  document.querySelectorAll(`.tabbar-btn`).forEach(b=>{
+  document.querySelectorAll('.tabbar-btn').forEach(b=>{
+    b.classList.remove('active');
     if((screen==='liste'&&b.textContent.includes('Liste'))||
        (screen==='nouveau'&&b.textContent.includes('Nouvelle'))||
        (screen==='analyse'&&b.textContent.includes('Analyse')))
@@ -1323,9 +1335,7 @@ function renderList(){
     if(filters.cat&&i.categorie!==filters.cat)return false;
     if(masquerResolus&&i.statut==='Résolu')return false;
     if(searchQuery){
-      const haystack=(
-        (i.desc||'')
-      ).toLowerCase();
+      const haystack=((i.titre||'')+' '+(i.desc||'')).toLowerCase();
       if(!haystack.includes(searchQuery))return false;
     }
     return true;
@@ -1511,16 +1521,13 @@ Reformule son texte de façon professionnelle, neutre et concise. Tu ne dois RIE
 Texte brut : "${inp.value.trim()}"
 Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets, sans markdown.`;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})});
-    const data=await r.json();
-    const reformule=data.content.map(c=>c.text||'').join('').trim();
+    const reformule=await callAnthropic(prompt,300);
     if(!reformule)throw new Error('Réponse vide');
     reformulations[id]=reformule;
     txt.textContent=reformule;
     bloc.style.display='block';
     bloc.scrollIntoView({behavior:'smooth',block:'nearest'});
   }catch(e){
-    // En cas d'erreur API, proposer de confirmer avec le texte original
     reformulations[id]=inp.value.trim();
     txt.textContent='(Reformulation indisponible) '+inp.value.trim();
     bloc.style.display='block';
@@ -1547,9 +1554,6 @@ function confirmerTexteOriginal(id){
   save();renderList();renderStats();
 }
 
-function confirmRes(id){
-  confirmerTexteOriginal(id);
-}
 function rouvrir(id){
   const i=issues.find(x=>x.id===id);if(!i)return;
   i.statut='En cours';i.fin='';
@@ -1591,9 +1595,7 @@ Reformule son texte de façon professionnelle, neutre et concise. Tu ne dois RIE
 Texte brut : "${inp.value.trim()}"
 Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets, sans markdown.`;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:300,messages:[{role:'user',content:prompt}]})});
-    const data=await r.json();
-    const reformule=data.content.map(c=>c.text||'').join('').trim();
+    const reformule=await callAnthropic(prompt,300);
     if(reformule&&inp) inp.value=reformule;
   }catch(e){console.log('Reformulation error:',e);}
   finally{btn.disabled=false;btn.textContent='✨';}
@@ -1679,9 +1681,8 @@ Reste factuel et concret. Ne dépasse pas 3 phrases par piste.
 Réponds UNIQUEMENT en JSON valide sans markdown :
 [{"label":"titre court","text":"description"},{"label":"titre court","text":"description"}]`;
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:700,messages:[{role:'user',content:prompt}]})});
-    const data=await r.json();
-    i.rhs=JSON.parse(data.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim());
+    const raw=await callAnthropic(prompt,700);
+    i.rhs=JSON.parse(raw.replace(/```json|```/g,'').trim());
   }catch(e){
     i.rhs=[
       {label:'Entretien individuel',text:'Recevoir chaque personne séparément, dans un cadre neutre. Écouter les faits sans jugement, reformuler les attentes. Fixer des engagements et une date de point.'},
@@ -1724,25 +1725,21 @@ Règles :
 
   let titre='',description=texte,categorie='Organisation / Process',priorite='Modéré';
   try{
-    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':getApiKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:prompt}]})});
-    const data=await r.json();
-    const txt=data.content.map(c=>c.text||'').join('').replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(txt);
+    const raw=await callAnthropic(prompt,500);
+    const parsed=JSON.parse(raw.replace(/```json|```/g,'').trim());
     titre=parsed.titre||'';
     description=parsed.description||texte;
     categorie=parsed.categorie||'Organisation / Process';
     priorite=parsed.priorite||'Modéré';
   }catch(e){
     console.log('Analyse error:',e);
-    // En cas d'erreur, utiliser le texte brut comme titre
     titre=texte.substring(0,60);
     description=texte;
-  } finally {
-    // Toujours réinitialiser le bouton
+  }finally{
     btn.textContent='Analyser avec Claude';
     btn.disabled=false;
   }
-  const newId=issues.length?Math.max(...issues.map(i=>i.id))+1:1;
+  const newId=getNewId();
   issues.push({
     id:newId,
     titre,
@@ -1827,7 +1824,7 @@ function saveIssue(){
   if(!titre){document.getElementById('f-titre').focus();return;}
   const cat=document.getElementById('f-cat').value;
   const note=document.getElementById('f-note').value.trim();
-  const newId=issues.length?Math.max(...issues.map(i=>i.id))+1:1;
+  const newId=getNewId();
   issues.push({
     id:newId,titre,
     desc:document.getElementById('f-desc').value.trim(),
