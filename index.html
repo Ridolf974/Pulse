@@ -314,6 +314,8 @@ body{
 .btn-action.ok:hover{background:rgba(29,184,138,0.15);border-color:var(--mint);box-shadow:0 2px 8px rgba(29,184,138,0.15)}
 .btn-action.danger{color:var(--coral);border-color:rgba(255,95,95,0.4);background:var(--coral-dim)}
 .btn-action.danger:hover{background:rgba(255,95,95,0.12);border-color:var(--coral);box-shadow:0 2px 8px rgba(255,95,95,0.12)}
+.btn-action.resolve{color:var(--indigo);border-color:rgba(91,79,233,0.4);background:var(--indigo-dim);font-weight:600}
+.btn-action.resolve:hover{background:rgba(91,79,233,0.15);border-color:var(--indigo);box-shadow:0 2px 8px rgba(91,79,233,0.15)}
 .btn-action.primary{background:var(--indigo);color:#fff;border-color:var(--indigo);box-shadow:0 2px 8px rgba(91,79,233,0.3)}
 .btn-action.primary:hover{background:var(--indigo-light);box-shadow:0 4px 14px rgba(91,79,233,0.35)}
 .btn-action.primary:active{box-shadow:none}
@@ -1438,7 +1440,7 @@ function renderList(){
       ${resolvePrompt}
       <div class="iactions">
         ${i.statut==='Ouvert'?`<button class="btn-action" onclick="setStatut(${i.id},'En cours')">→ En cours</button>`:''}
-        ${i.statut!=='Résolu'&&!isResolving?`<button class="btn-action ok" onclick="askRes(${i.id})">✓ Résolu</button>`:''}
+        ${i.statut!=='Résolu'&&!isResolving?`<button class="btn-action resolve" onclick="askRes(${i.id})">Marquer résolu</button>`:''}
         ${i.statut==='Résolu'?`<button class="btn-action" onclick="rouvrir(${i.id})">↩ Rouvrir</button>`:''}
         ${i.statut==='Résolu'&&i.resolution?`<button class="btn-action" onclick="modifierResolu(${i.id})">✏ Résolution</button>`:''}
         <button class="btn-action" onclick="toggleExp(${i.id})">${btnLabel}</button>
