@@ -1,4 +1,4 @@
-const CACHE = 'pulse-v1';
+const CACHE = 'manalert-v1';
 const FILES = ['./index.html', './manifest.json'];
 
 self.addEventListener('install', e => {
