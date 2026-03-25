@@ -192,6 +192,14 @@ body{
   background:var(--indigo-dim);
   opacity:0.4;
 }
+.stat-indigo::before{background:var(--indigo);opacity:0.12}
+.stat-indigo::after{background:var(--indigo);opacity:0.07}
+.stat-amber::before{background:var(--amber);opacity:0.15}
+.stat-amber::after{background:var(--amber);opacity:0.08}
+.stat-indigo-light::before{background:var(--indigo-light);opacity:0.13}
+.stat-indigo-light::after{background:var(--indigo-light);opacity:0.07}
+.stat-coral::before{background:var(--coral);opacity:0.13}
+.stat-coral::after{background:var(--coral);opacity:0.07}
 .stat-label{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
 .stat-value{font-family:'Syne',sans-serif;font-size:26px;font-weight:700;line-height:1}
 
@@ -1322,10 +1330,10 @@ function renderStats(){
   const enc=issues.filter(i=>i.statut==='En cours').length;
   const rh=issues.filter(i=>i.categorie==='Ressources Humaines'&&i.statut!=='Résolu').length;
   document.getElementById('stats-bar').innerHTML=`
-    <div class="stat"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--indigo)">${tot}</div></div>
-    <div class="stat"><div class="stat-label">Ouverts</div><div class="stat-value" style="color:var(--amber)">${ouv}</div></div>
-    <div class="stat"><div class="stat-label">En cours</div><div class="stat-value" style="color:var(--indigo-light)">${enc}</div></div>
-    <div class="stat"><div class="stat-label">RH actifs</div><div class="stat-value" style="color:var(--coral)">${rh}</div></div>`;
+    <div class="stat stat-indigo"><div class="stat-label">Total</div><div class="stat-value" style="color:var(--indigo)">${tot}</div></div>
+    <div class="stat stat-amber"><div class="stat-label">Ouverts</div><div class="stat-value" style="color:var(--amber)">${ouv}</div></div>
+    <div class="stat stat-indigo-light"><div class="stat-label">En cours</div><div class="stat-value" style="color:var(--indigo-light)">${enc}</div></div>
+    <div class="stat stat-coral"><div class="stat-label">RH actifs</div><div class="stat-value" style="color:var(--coral)">${rh}</div></div>`;
 }
 
 function renderList(){
