@@ -1400,7 +1400,8 @@ function renderList(){
         <p>Comment avez-vous résolu ce problème ?</p>
         <textarea id="res-${i.id}" placeholder="Décrivez librement la solution mise en place..."></textarea>
         <div class="resolve-prompt-actions">
-          <button class="btn-reformuler" id="btn-ref-${i.id}" onclick="reformulerResolution(${i.id})">✨ Reformuler</button>
+          <button class="btn-action ok" onclick="confirmerTexteOriginal(${i.id})">✓ Confirmer</button>
+          <button class="btn-reformuler" id="btn-ref-${i.id}" onclick="reformulerResolution(${i.id})" title="Reformuler avec Claude (optionnel)">✨</button>
           <button class="btn-action" onclick="cancelRes(${i.id})">Annuler</button>
         </div>
         <div class="reformule-block" id="reformule-${i.id}">
