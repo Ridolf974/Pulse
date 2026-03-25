@@ -17,7 +17,7 @@
 <style>
 /* ============================================================
    DESIGN SYSTEM — Moderne & Coloré
-   Palette : Electric Indigo + Coral + Mint sur fond slate
+   Palette : Primary Green + Coral + Mint sur fond slate
    Typo : DM Sans (corps) + Syne (titres)
 ============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Syne:wght@600;700;800&display=swap');
@@ -536,10 +536,10 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 .bar-track{flex:1;background:var(--surface2);border-radius:6px;height:24px;overflow:hidden}
 .bar-fill{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:8px;font-size:11px;font-weight:700}
 .bar-pct{font-size:12px;font-weight:600;color:var(--text2);width:36px;text-align:right}
-.delai-table{width:100%;border-collapse:collapse;font-size:13px}
-.delai-table th{font-size:10px;font-weight:700;color:var(--text3);text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.4px}
-.delai-table td{padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text);font-weight:500}
-.delai-table tr:last-child td{border-bottom:none}
+.delai-table,.secteur-table{width:100%;border-collapse:collapse;font-size:13px}
+.delai-table th,.secteur-table th{font-size:10px;font-weight:700;color:var(--text3);text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.4px}
+.delai-table td,.secteur-table td{padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text);font-weight:500}
+.delai-table tr:last-child td,.secteur-table tr:last-child td{border-bottom:none}
 .empty-analyse{text-align:center;padding:40px 20px;color:var(--text2);font-size:14px}
 
 /* ── Bilan ── */
@@ -583,10 +583,6 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 .bilan-error{color:var(--coral);font-size:13px;margin-top:6px;display:none;font-weight:500}
 .bilan-result{animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.secteur-table{width:100%;border-collapse:collapse;font-size:13px}
-.secteur-table th{font-size:10px;font-weight:700;color:var(--text3);text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.4px}
-.secteur-table td{padding:10px 8px;border-bottom:1px solid var(--border);color:var(--text);font-weight:500}
-.secteur-table tr:last-child td{border-bottom:none}
 
 /* ── Modale suppression ── */
 .modal-overlay{
@@ -1035,7 +1031,8 @@ let resolving={};
 let filters={statut:'',cat:''};
 let masquerResolus=false;
 let pendingDelId=null;
-let scrollPositions={};
+let _listeScrollTop=0;
+const SEUIL_SOUFFRANCE=20;
 
 let searchQuery='';
 
@@ -1537,8 +1534,6 @@ function renderList(){
       }
     }
 
-    // Calcul souffrance : En cours depuis > 20j sans remarque récente
-    const SEUIL_SOUFFRANCE=20;
     let isSouffrance=false;
     if(i.statut==='En cours'&&i.debut){
       const joursDepuis=Math.floor((new Date()-new Date(i.debut))/(86400000));
@@ -1592,6 +1587,13 @@ function cancelRes(id){delete resolving[id];renderList();}
 // Stockage temporaire des reformulations
 const reformulations={};
 
+function buildReformulationPrompt(texte){
+  return `Tu es l'assistant d'un responsable de centre de dialyse. Il décrit comment une problématique a été résolue.
+Reformule son texte de façon professionnelle, neutre et concise. Tu ne dois RIEN inventer, RIEN ajouter, AUCUNE recommandation. Reprends uniquement les faits décrits, reformulés sobrement. Style compte-rendu factuel, phrases courtes. Si le texte est court, la reformulation reste courte.
+Texte brut : "${texte}"
+Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets, sans markdown.`;
+}
+
 async function reformulerResolution(id){
   const inp=document.getElementById('res-'+id);
   const btn=document.getElementById('btn-ref-'+id);
@@ -1604,12 +1606,8 @@ async function reformulerResolution(id){
     return;
   }
   inp.style.border='0.5px solid #C0DD97';
-  // Anti-double clic
   btn.disabled=true;btn.textContent='⏳ Reformulation...';
-  const prompt=`Tu es l'assistant d'un responsable de centre de dialyse. Il vient de résoudre une problématique et décrit ce qui a été fait.
-Reformule son texte de façon professionnelle, neutre et concise. Tu ne dois RIEN inventer, RIEN ajouter, AUCUNE recommandation. Reprends uniquement les faits décrits, reformulés sobrement. Style compte-rendu factuel, phrases courtes. Si le texte est court, la reformulation reste courte.
-Texte brut : "${inp.value.trim()}"
-Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets, sans markdown.`;
+  const prompt=buildReformulationPrompt(inp.value.trim());
   try{
     const reformule=await callAnthropic(prompt,300);
     if(!reformule)throw new Error('Réponse vide');
@@ -1626,23 +1624,18 @@ Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets
   }
 }
 
-function confirmerAvecReformulation(id){
+function confirmerResolution(id, useReformulation){
   const i=issues.find(x=>x.id===id);if(!i)return;
-  const texte=reformulations[id]||document.getElementById('res-'+id)?.value.trim()||'Résolution non précisée.';
+  const texte=useReformulation
+    ? (reformulations[id]||document.getElementById('res-'+id)?.value.trim()||'Résolution non précisée.')
+    : ((document.getElementById('res-'+id)?.value.trim())||'Résolution non précisée.');
   i.statut='Résolu';i.fin=td();
   i.resolution={texte,date:td(),dateTs:new Date().toISOString()};
   delete resolving[id];delete reformulations[id];
   save();renderList();renderStats();
 }
-
-function confirmerTexteOriginal(id){
-  const inp=document.getElementById('res-'+id);
-  const i=issues.find(x=>x.id===id);if(!i)return;
-  i.statut='Résolu';i.fin=td();
-  i.resolution={texte:(inp?inp.value.trim():'')||'Résolution non précisée.',date:td()};
-  delete resolving[id];delete reformulations[id];
-  save();renderList();renderStats();
-}
+function confirmerAvecReformulation(id){confirmerResolution(id,true);}
+function confirmerTexteOriginal(id){confirmerResolution(id,false);}
 
 function rouvrir(id){
   const i=issues.find(x=>x.id===id);if(!i)return;
@@ -1680,10 +1673,7 @@ async function reformulerResoluExistant(id){
   if(!getApiKey()){alert('Clé API non configurée. Allez dans ⚙️ Configuration.');return;}
   const btn=document.getElementById('btn-ref-resolu-'+id);
   btn.disabled=true;btn.textContent='⏳...';
-  const prompt=`Tu es l'assistant d'un responsable de centre de dialyse. Il décrit comment une problématique a été résolue.
-Reformule son texte de façon professionnelle, neutre et concise. Tu ne dois RIEN inventer, RIEN ajouter, AUCUNE recommandation. Reprends uniquement les faits décrits, reformulés sobrement. Style compte-rendu factuel, phrases courtes.
-Texte brut : "${inp.value.trim()}"
-Réponds UNIQUEMENT avec le texte reformulé, sans introduction, sans guillemets, sans markdown.`;
+  const prompt=buildReformulationPrompt(inp.value.trim());
   try{
     const reformule=await callAnthropic(prompt,300);
     if(reformule&&inp) inp.value=reformule;
@@ -1839,7 +1829,7 @@ function ouvrirModif(id){
   editId=id;
   // Mémoriser position scroll de la liste
   const sa=document.querySelector('#screen-liste .scroll-area');
-  if(sa) scrollPositions['liste']=sa.scrollTop;
+  if(sa) _listeScrollTop=sa.scrollTop;
   document.getElementById('m-titre').value=i.titre||'';
   document.getElementById('m-desc').value=i.desc||'';
   document.getElementById('m-cat').value=i.categorie||'Organisation / Process';
@@ -1874,7 +1864,7 @@ function saveModif(){
   setTimeout(()=>{
     const sa=document.querySelector('#screen-liste .scroll-area');
     if(sa){
-      if(scrollPositions['liste']!==undefined) sa.scrollTop=scrollPositions['liste'];
+      if(_listeScrollTop) sa.scrollTop=_listeScrollTop;
       const card=document.getElementById('card-'+savedId);
       if(card){
         card.style.transition='box-shadow .3s';
