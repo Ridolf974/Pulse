@@ -215,6 +215,8 @@ body{
   background:transparent;color:var(--text);font-family:inherit;
 }
 .search-bar input::placeholder{color:var(--text3)}
+.search-hl{background:#FFEB3B;color:#1A1830;border-radius:2px;padding:0 1px}
+@media(prefers-color-scheme:dark){.search-hl{background:#A68B00;color:#fff}}
 .search-clear{
   background:none;border:none;cursor:pointer;
   color:var(--text3);font-size:16px;padding:0;line-height:1;
@@ -1302,6 +1304,13 @@ function fmtFR(dateStr){
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
+// Surligner les termes recherchés dans un texte déjà échappé
+function highlight(text, query){
+  if(!query) return text;
+  const escaped=query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return text.replace(new RegExp('('+escaped+')','gi'),'<mark class="search-hl">$1</mark>');
+}
+
 // Sauvegarde et restauration de la position de scroll autour d'un re-render
 function withScrollRestore(cardId, fn){
   const sa=document.querySelector('#screen-liste .scroll-area');
@@ -1541,7 +1550,7 @@ function renderList(){
 
     return `<div class="icard${i.statut==='Résolu'?' resolved':''}${isSouffrance?' souffrance':''}" id="card-${i.id}" data-prio="${esc(i.priorite)}">
       <div class="ihead">
-        <div class="ititle">${esc(i.titre)}</div>
+        <div class="ititle">${highlight(esc(i.titre),searchQuery)}</div>
         <div class="ibadges">${isSouffrance?'<span class="badge-souffrance">⚠ En attente</span>':''}${catBadge(i.categorie)}${prioBadge(i.priorite)}</div>
       </div>
       <div class="imeta">
@@ -1549,7 +1558,7 @@ function renderList(){
         ${statBadge(i.statut)}
         <span class="imeta-chip">📅 ${fmtFR(i.debut)}</span>
       </div>
-      ${i.desc?`<div class="idesc">${esc(i.desc)}</div>`:''}
+      ${i.desc?`<div class="idesc">${highlight(esc(i.desc),searchQuery)}</div>`:''}
       ${resolutionBanner}
       ${resolvePrompt}
       <div class="iactions">
