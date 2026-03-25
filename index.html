@@ -26,9 +26,9 @@
 
 :root{
   /* Couleurs principales */
-  --indigo:#1D9E75;
-  --indigo-light:#0F6E56;
-  --indigo-dim:#E1F5EE;
+  --primary:#1D9E75;
+  --primary-light:#0F6E56;
+  --primary-dim:#E1F5EE;
   --coral:#FF5F5F;
   --coral-dim:#FFF0F0;
   --mint:#1DB88A;
@@ -72,7 +72,7 @@
     --border:rgba(29,158,117,0.2);
     --border2:rgba(29,158,117,0.35);
     --shadow-sm:0 1px 4px rgba(0,0,0,0.3);
-    --indigo-dim:#0A2E25;
+    --primary-dim:#0A2E25;
     --coral-dim:#2A1A1A;
     --mint-dim:#0F2520;
     --amber-dim:#2A2010;
@@ -108,7 +108,7 @@ body{
 }
 .navbar::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg, var(--indigo) 0%, var(--indigo-light) 50%, transparent 100%);
+  background:linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 50%, transparent 100%);
   opacity:0.35;
 }
 .navbar h1{
@@ -142,9 +142,9 @@ body{
   transition:all .2s;
   letter-spacing:0.2px;
 }
-.tabbar-btn.active{color:var(--indigo)}
+.tabbar-btn.active{color:var(--primary)}
 .tabbar-btn.active .tabbar-icon-wrap{
-  background:var(--indigo-dim);
+  background:var(--primary-dim);
   transform:translateY(-2px);
 }
 .tabbar-icon-wrap{
@@ -192,9 +192,9 @@ body{
   letter-spacing:0.1px;
 }
 .filter-chip.active{
-  background:var(--indigo);
+  background:var(--primary);
   color:#fff;
-  border-color:var(--indigo);
+  border-color:var(--primary);
   box-shadow:0 2px 8px rgba(29,158,117,0.3);
 }
 
@@ -228,7 +228,7 @@ body{
   cursor:pointer;user-select:none;
 }
 .toggle-resolus input[type=checkbox]{
-  width:16px;height:16px;accent-color:var(--indigo);cursor:pointer;
+  width:16px;height:16px;accent-color:var(--primary);cursor:pointer;
 }
 
 /* ── Cards ── */
@@ -311,16 +311,16 @@ body{
   transition:background .15s;
   border-radius:inherit;
 }
-.btn-action:hover{background:var(--surface);border-color:var(--indigo);color:var(--text);box-shadow:0 2px 8px rgba(29,158,117,0.1)}
+.btn-action:hover{background:var(--surface);border-color:var(--primary);color:var(--text);box-shadow:0 2px 8px rgba(29,158,117,0.1)}
 .btn-action:active{opacity:.7;transform:scale(0.97);box-shadow:none}
 .btn-action.ok{color:var(--mint);border-color:rgba(29,184,138,0.4);background:var(--mint-dim)}
 .btn-action.ok:hover{background:rgba(29,184,138,0.15);border-color:var(--mint);box-shadow:0 2px 8px rgba(29,184,138,0.15)}
 .btn-action.danger{color:var(--coral);border-color:rgba(255,95,95,0.4);background:var(--coral-dim)}
 .btn-action.danger:hover{background:rgba(255,95,95,0.12);border-color:var(--coral);box-shadow:0 2px 8px rgba(255,95,95,0.12)}
-.btn-action.resolve{color:var(--indigo);border-color:rgba(29,158,117,0.4);background:var(--indigo-dim);font-weight:600}
-.btn-action.resolve:hover{background:rgba(29,158,117,0.15);border-color:var(--indigo);box-shadow:0 2px 8px rgba(29,158,117,0.15)}
-.btn-action.primary{background:var(--indigo);color:#fff;border-color:var(--indigo);box-shadow:0 2px 8px rgba(29,158,117,0.3)}
-.btn-action.primary:hover{background:var(--indigo-light);box-shadow:0 4px 14px rgba(29,158,117,0.35)}
+.btn-action.resolve{color:var(--primary);border-color:rgba(29,158,117,0.4);background:var(--primary-dim);font-weight:600}
+.btn-action.resolve:hover{background:rgba(29,158,117,0.15);border-color:var(--primary);box-shadow:0 2px 8px rgba(29,158,117,0.15)}
+.btn-action.primary{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 2px 8px rgba(29,158,117,0.3)}
+.btn-action.primary:hover{background:var(--primary-light);box-shadow:0 4px 14px rgba(29,158,117,0.35)}
 .btn-action.primary:active{box-shadow:none}
 
 /* ── Section étendue ── */
@@ -330,7 +330,7 @@ body{
   padding:8px 10px;
   background:var(--surface2);
   border-radius:10px;margin-bottom:6px;line-height:1.5;
-  border-left:3px solid var(--indigo-dim);
+  border-left:3px solid var(--primary-dim);
 }
 .note-date{color:var(--text3);font-size:11px;font-weight:600}
 .add-note{display:flex;gap:8px;margin-top:10px}
@@ -343,7 +343,7 @@ body{
   font-family:inherit;
   transition:border-color .2s;
 }
-.add-note input:focus{outline:none;border-color:var(--indigo)}
+.add-note input:focus{outline:none;border-color:var(--primary)}
 .btn-hide-bottom{
   display:flex;align-items:center;justify-content:center;gap:4px;
   margin-top:12px;width:100%;padding:9px;
@@ -444,7 +444,7 @@ body{
 }
 .form-row:last-child{border-bottom:none}
 .form-label{
-  font-size:10px;font-weight:700;color:var(--indigo);
+  font-size:10px;font-weight:700;color:var(--primary);
   margin-bottom:5px;text-transform:uppercase;letter-spacing:0.6px;
 }
 .form-input,.form-select{
@@ -465,7 +465,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 /* ── Boutons principaux ── */
 .btn-submit{
   width:100%;
-  background:var(--indigo);color:#fff;border:none;
+  background:var(--primary);color:#fff;border:none;
   border-radius:var(--radius-lg);padding:16px;
   font-size:16px;font-weight:700;
   cursor:pointer;margin-bottom:10px;
@@ -488,7 +488,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 }
 .empty-icon{
   width:64px;height:64px;border-radius:20px;
-  background:var(--indigo-dim);
+  background:var(--primary-dim);
   display:flex;align-items:center;justify-content:center;
   margin:0 auto 16px;
 }
@@ -509,7 +509,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
 .kpi-card::after{
   content:'';position:absolute;bottom:0;right:0;
   width:50px;height:50px;border-radius:50%;
-  background:var(--indigo-dim);
+  background:var(--primary-dim);
   transform:translate(15px,15px);
 }
 .kpi-label{font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.5px}
@@ -551,17 +551,17 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
   font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px;
 }
 .bilan-dates{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
-.bilan-dates label{font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px}
+.bilan-dates label{font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:4px}
 .bilan-dates input[type=date]{
   font-size:14px;padding:9px 12px;
   border:1px solid var(--border2);border-radius:10px;
   background:var(--surface);color:var(--text);width:100%;
   font-family:inherit;transition:border-color .2s;
 }
-.bilan-dates input[type=date]:focus{outline:none;border-color:var(--indigo)}
+.bilan-dates input[type=date]:focus{outline:none;border-color:var(--primary)}
 .bilan-date-group{flex:1;min-width:120px}
 .btn-bilan{
-  width:100%;background:var(--indigo);color:#fff;border:none;
+  width:100%;background:var(--primary);color:#fff;border:none;
   border-radius:var(--radius);padding:12px;
   font-size:15px;font-weight:700;cursor:pointer;
   font-family:'Syne',sans-serif;
@@ -795,7 +795,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
   </div>
   <!-- Onglets internes -->
   <div style="display:flex;border-bottom:1px solid var(--border);background:var(--surface);flex-shrink:0;padding:0 8px;gap:4px" class="no-print">
-    <button id="atab-global" onclick="switchAnalyseTab('global')" style="flex:1;padding:12px 4px;font-size:12px;font-weight:700;border:none;background:transparent;color:var(--indigo);border-bottom:2px solid var(--indigo);cursor:pointer;letter-spacing:0.2px;text-transform:uppercase">Vue générale</button>
+    <button id="atab-global" onclick="switchAnalyseTab('global')" style="flex:1;padding:12px 4px;font-size:12px;font-weight:700;border:none;background:transparent;color:var(--primary);border-bottom:2px solid var(--primary);cursor:pointer;letter-spacing:0.2px;text-transform:uppercase">Vue générale</button>
     <button id="atab-secteur" onclick="switchAnalyseTab('secteur')" style="flex:1;padding:12px 4px;font-size:12px;font-weight:700;border:none;background:transparent;color:var(--text3);border-bottom:2px solid transparent;cursor:pointer;letter-spacing:0.2px;text-transform:uppercase">Par secteur</button>
     <button id="atab-bilan" onclick="switchAnalyseTab('bilan')" style="flex:1;padding:12px 4px;font-size:12px;font-weight:700;border:none;background:transparent;color:var(--text3);border-bottom:2px solid transparent;cursor:pointer;letter-spacing:0.2px;text-transform:uppercase">Bilan</button>
   </div>
@@ -825,7 +825,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
         </div>
         <div style="display:flex;gap:10px;margin-bottom:10px;flex-wrap:wrap">
           <div style="flex:1;min-width:120px">
-            <div style="font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Secteur</div>
+            <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Secteur</div>
             <select id="bilan-secteur" class="form-select" style="border:1px solid var(--border2);border-radius:10px;padding:9px 12px;background:var(--surface)">
               <option value="">Tous les secteurs</option>
               <option value="Général">Général</option>
@@ -837,7 +837,7 @@ textarea.form-input{resize:none;min-height:72px;line-height:1.5}
             </select>
           </div>
           <div style="flex:1;min-width:120px">
-            <div style="font-size:10px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Catégorie</div>
+            <div style="font-size:10px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px">Catégorie</div>
             <select id="bilan-cat" class="form-select" style="border:1px solid var(--border2);border-radius:10px;padding:9px 12px;background:var(--surface)">
               <option value="">Toutes</option>
               <option value="Ressources Humaines">RH</option>
@@ -1050,15 +1050,17 @@ function toggleSearch(){
     renderList();
   } else {
     bar.classList.add('visible');
-    btn.style.background='var(--indigo)';
+    btn.style.background='var(--primary)';
     btn.style.color='#fff';
     setTimeout(()=>{if(inp)inp.focus();},100);
   }
 }
 
+let _searchTimer=null;
 function onSearchInput(val){
   searchQuery=val.trim().toLowerCase();
-  renderList();
+  clearTimeout(_searchTimer);
+  _searchTimer=setTimeout(renderList,150);
 }
 
 function clearSearch(){
@@ -1087,7 +1089,6 @@ const firebaseConfig = {
 
 let db = null;
 let fbRef = null;
-let _fbConnected = false;
 let _pendingWrites = 0;
 
 // Toast notification helper
@@ -1107,7 +1108,6 @@ function startConnectionMonitor(){
   const badgeText=document.getElementById('fb-connection-text');
   connRef.on('value', snap=>{
     const connected=snap.val()===true;
-    _fbConnected=connected;
     if(!badge) return;
     if(connected){
       badge.className='fb-connection-badge online';
@@ -1120,14 +1120,12 @@ function startConnectionMonitor(){
 }
 
 // ===== AUTHENTIFICATION =====
-function showLogin(){
+function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-login').classList.add('active');
+  document.getElementById('screen-'+id).classList.add('active');
 }
-function showRegister(){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById('screen-register').classList.add('active');
-}
+function showLogin(){showScreen('login');}
+function showRegister(){showScreen('register');}
 
 function doLogin(){
   const email=document.getElementById('login-email').value.trim();
@@ -1287,6 +1285,13 @@ function save(){
   }
 }
 function td(){return new Date().toISOString().split('T')[0]}
+function daysBetween(d1,d2){return Math.max(0,Math.round((new Date(d2)-new Date(d1))/(86400000)));}
+
+// Constantes catégories (utilisées dans analyse, bilan, etc.)
+const CATS=['Ressources Humaines','Organisation / Process','Planning'];
+const CAT_LABELS=['RH','Organisation','Planning'];
+const CAT_COLORS=['#D4537E','#BA7517','#1D9E75'];
+
 function fmtFR(dateStr){
   if(!dateStr||dateStr==='—')return dateStr||'—';
   try{
@@ -1296,6 +1301,23 @@ function fmtFR(dateStr){
   }catch(e){return dateStr;}
 }
 function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+// Sauvegarde et restauration de la position de scroll autour d'un re-render
+function withScrollRestore(cardId, fn){
+  const sa=document.querySelector('#screen-liste .scroll-area');
+  const card=document.getElementById('card-'+cardId);
+  const cardTop=card?card.getBoundingClientRect().top:null;
+  const scrollBefore=sa?sa.scrollTop:0;
+  fn();
+  if(sa&&cardTop!==null){
+    setTimeout(()=>{
+      const cardAfter=document.getElementById('card-'+cardId);
+      if(cardAfter){
+        sa.scrollTop=scrollBefore+(cardAfter.getBoundingClientRect().top-cardTop);
+      }
+    },20);
+  }
+}
 
 function getApiKey(){return localStorage.getItem('anthropic_api_key')||sessionStorage.getItem('anthropic_api_key')||'';}
 function saveApiKey(){
@@ -1440,7 +1462,7 @@ function renderList(){
   if(!list.length){
     el.innerHTML=`<div class="empty">
       <div class="empty-icon">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--indigo)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
         </svg>
       </div>
@@ -1553,23 +1575,7 @@ function renderList(){
 }
 
 function toggleExp(id){
-  // Mémoriser position de la carte avant rerenderList
-  const cardBefore=document.getElementById('card-'+id);
-  const cardTop=cardBefore?cardBefore.getBoundingClientRect().top:null;
-  const sa=document.querySelector('#screen-liste .scroll-area');
-  const scrollBefore=sa?sa.scrollTop:0;
-  exp[id]=!exp[id];
-  renderList();
-  // Après render, repositionner sur la carte
-  if(sa&&cardTop!==null){
-    setTimeout(()=>{
-      const cardAfter=document.getElementById('card-'+id);
-      if(cardAfter){
-        const newTop=cardAfter.getBoundingClientRect().top;
-        sa.scrollTop=scrollBefore+(newTop-cardTop);
-      }
-    },20);
-  }
+  withScrollRestore(id, ()=>{ exp[id]=!exp[id]; renderList(); });
 }
 function askRes(id){resolving[id]=true;renderList();setTimeout(()=>{const e=document.getElementById('res-'+id);if(e)e.focus();},50);}
 function cancelRes(id){delete resolving[id];renderList();}
@@ -1680,23 +1686,7 @@ function setStatut(id,s){
 }
 function supprimerNote(id,idx){
   const i=issues.find(x=>x.id===id);if(!i||!i.notes)return;
-  // Mémoriser scroll
-  const sa=document.querySelector('#screen-liste .scroll-area');
-  const cardEl=document.getElementById('card-'+id);
-  const cardTop=cardEl?cardEl.getBoundingClientRect().top:null;
-  const scrollBefore=sa?sa.scrollTop:0;
-  i.notes.splice(idx,1);
-  save();renderList();
-  // Repositionner
-  if(sa&&cardTop!==null){
-    setTimeout(()=>{
-      const cardAfter=document.getElementById('card-'+id);
-      if(cardAfter){
-        const newTop=cardAfter.getBoundingClientRect().top;
-        sa.scrollTop=scrollBefore+(newTop-cardTop);
-      }
-    },20);
-  }
+  withScrollRestore(id, ()=>{ i.notes.splice(idx,1); save(); renderList(); });
 }
 function addNote(id){
   const inp=document.getElementById('ni-'+id);
@@ -1770,8 +1760,6 @@ function retourSaisie(){
   document.getElementById('step-fiche').style.display='none';
   document.getElementById('step-saisie').style.display='block';
 }
-
-
 
 async function analyserSaisie(){
   const texte=document.getElementById('f-saisie-libre').value.trim();
@@ -1880,7 +1868,7 @@ function saveModif(){
       const card=document.getElementById('card-'+savedId);
       if(card){
         card.style.transition='box-shadow .3s';
-        card.style.boxShadow='0 0 0 2px var(--indigo)';
+        card.style.boxShadow='0 0 0 2px var(--primary)';
         setTimeout(()=>{card.style.boxShadow='';card.style.transition='';},1400);
         card.scrollIntoView({behavior:'smooth',block:'nearest'});
       }
@@ -1934,20 +1922,16 @@ function renderAnalyse(){
   const ouverts=issues.filter(i=>i.statut==='Ouvert');
   const encours=issues.filter(i=>i.statut==='En cours');
   const txRes=total?Math.round(resolus.length/total*100):0;
-  function daysBetween(d1,d2){return Math.max(0,Math.round((new Date(d2)-new Date(d1))/(86400000)));}
   const delais=resolus.filter(i=>i.debut&&i.fin).map(i=>daysBetween(i.debut,i.fin));
   const delaiMoyen=delais.length?Math.round(delais.reduce((a,b)=>a+b,0)/delais.length):null;
   const critiques=issues.filter(i=>i.priorite==='Critique'&&i.statut!=='Résolu').length;
-  const cats=['Ressources Humaines','Organisation / Process','Planning'];
-  const catColors=['#D4537E','#BA7517','#1D9E75'];
-  const catLabels=['RH','Organisation','Planning'];
-  const catCounts=cats.map(c=>issues.filter(i=>i.categorie===c).length);
+  const catCounts=CATS.map(c=>issues.filter(i=>i.categorie===c).length);
   const statCounts=[ouverts.length,encours.length,resolus.length];
   const statLabels=['Ouvert','En cours','Résolu'];
   const statBg=['#F1EFE8','#EEEDFE','#EAF3DE'];
   const statFg=['#5F5E5A','#534AB7','#3B6D11'];
   const maxStat=Math.max(...statCounts,1);
-  const delaiParCat=cats.map(c=>{
+  const delaiParCat=CATS.map(c=>{
     const r=resolus.filter(i=>i.categorie===c&&i.debut&&i.fin);
     if(!r.length)return null;
     return Math.round(r.map(i=>daysBetween(i.debut,i.fin)).reduce((a,b)=>a+b,0)/r.length);
@@ -1961,7 +1945,7 @@ function renderAnalyse(){
     </div>
     <div class="chart-card">
       <div class="chart-title">Répartition par catégorie</div>
-      <div class="legend-row">${cats.map((c,i)=>catCounts[i]?`<span><span class="ldot" style="background:${catColors[i]}"></span>${catLabels[i]} ${Math.round(catCounts[i]/total*100)}%</span>`:'').join('')}</div>
+      <div class="legend-row">${CATS.map((c,i)=>catCounts[i]?`<span><span class="ldot" style="background:${CAT_COLORS[i]}"></span>${CAT_LABELS[i]} ${Math.round(catCounts[i]/total*100)}%</span>`:'').join('')}</div>
       <div style="position:relative;height:200px"><canvas id="chart-cat"></canvas></div>
     </div>
     <div class="chart-card">
@@ -1977,18 +1961,18 @@ function renderAnalyse(){
       <div class="chart-title">Délai moyen de résolution</div>
       <table class="delai-table">
         <thead><tr><th>Catégorie</th><th>Résolus</th><th>Délai moy.</th><th>Appréciation</th></tr></thead>
-        <tbody>${cats.map((c,i)=>{
+        <tbody>${CATS.map((c,i)=>{
           const nb=resolus.filter(x=>x.categorie===c).length;
           const d=delaiParCat[i];
           const tend=d===null?'—':d<=3?'<span style="color:#3B6D11">Rapide</span>':d<=7?'<span style="color:#854F0B">Moyen</span>':'<span style="color:#A32D2D">Long</span>';
-          return`<tr><td>${catLabels[i]}</td><td>${nb}</td><td>${d!==null?d+'j':'—'}</td><td>${tend}</td></tr>`;
+          return`<tr><td>${CAT_LABELS[i]}</td><td>${nb}</td><td>${d!==null?d+'j':'—'}</td><td>${tend}</td></tr>`;
         }).join('')}</tbody>
       </table>
     </div>`;
   if(typeof Chart!=='undefined'){
     window._chartCat = new Chart(document.getElementById('chart-cat'),{
       type:'doughnut',
-      data:{labels:catLabels,datasets:[{data:catCounts,backgroundColor:catColors,borderWidth:2,borderColor:'#ffffff'}]},
+      data:{labels:CAT_LABELS,datasets:[{data:catCounts,backgroundColor:CAT_COLORS,borderWidth:2,borderColor:'#ffffff'}]},
       options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+ctx.parsed+' problématique(s)'}}}}
     });
   }
@@ -2000,10 +1984,8 @@ function renderAnalyseSecteur(){
     el.innerHTML='<div class="empty-analyse">Aucune donnée disponible.</div>';
     return;
   }
-  // Récupérer tous les secteurs uniques
   const secteurs=[...new Set(issues.map(i=>i.secteur||'Général'))].sort();
   const total=issues.length;
-  function daysBetween(d1,d2){return Math.max(0,Math.round((new Date(d2)-new Date(d1))/(86400000)));}
 
   const rows=secteurs.map(s=>{
     const sec=issues.filter(i=>(i.secteur||'Général')===s);
@@ -2058,9 +2040,9 @@ function switchAnalyseTab(tab){
     const btnEl=document.getElementById('atab-'+t);
     if(tabEl) tabEl.style.display=t===tab?'block':'none';
     if(btnEl){
-      btnEl.style.color=t===tab?'var(--indigo)':'var(--text3)';
+      btnEl.style.color=t===tab?'var(--primary)':'var(--text3)';
       btnEl.style.fontWeight='700';
-      btnEl.style.borderBottom=t===tab?'2px solid var(--indigo)':'2px solid transparent';
+      btnEl.style.borderBottom=t===tab?'2px solid var(--primary)':'2px solid transparent';
     }
   });
   if(tab==='global') renderAnalyse();
@@ -2103,8 +2085,6 @@ function genererBilan(){
       const d=new Date(dateStr);
       return d>=du && d<=au;
     }
-    function daysBetween(d1,d2){return Math.max(0,Math.round((new Date(d2)-new Date(d1))/(86400000)));}
-
     // Filtres optionnels
     const bilanSecteur=document.getElementById('bilan-secteur')?.value||'';
     const bilanCat=document.getElementById('bilan-cat')?.value||'';
@@ -2123,11 +2103,8 @@ function genererBilan(){
     const delais=resolus.filter(i=>i.debut&&i.fin).map(i=>daysBetween(i.debut,i.fin));
     const delaiMoyen=delais.length?Math.round(delais.reduce((a,b)=>a+b,0)/delais.length):null;
 
-    const cats=['Ressources Humaines','Organisation / Process','Planning'];
-    const catLabels=['RH','Organisation','Planning'];
-    const catColors=['#D4537E','#BA7517','#1D9E75'];
-    const ouvParCat=cats.map(c=>ouverts.filter(i=>i.categorie===c).length);
-    const resParCat=cats.map(c=>resolus.filter(i=>i.categorie===c).length);
+    const ouvParCat=CATS.map(c=>ouverts.filter(i=>i.categorie===c).length);
+    const resParCat=CATS.map(c=>resolus.filter(i=>i.categorie===c).length);
 
     const secteurs=[...new Set(issuesFiltres.map(i=>i.secteur||'Général'))].sort();
     const secData=secteurs.map(s=>({
@@ -2160,9 +2137,9 @@ function genererBilan(){
         <div class="chart-title">Répartition par catégorie</div>
         <table class="delai-table">
           <thead><tr><th>Catégorie</th><th>Ouverts</th><th>Résolus</th><th>Solde</th></tr></thead>
-          <tbody>${cats.map((c,i)=>ouvParCat[i]+resParCat[i]>0?`
+          <tbody>${CATS.map((c,i)=>ouvParCat[i]+resParCat[i]>0?`
             <tr>
-              <td><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${catColors[i]};margin-right:5px"></span>${catLabels[i]}</td>
+              <td><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:${CAT_COLORS[i]};margin-right:5px"></span>${CAT_LABELS[i]}</td>
               <td>${ouvParCat[i]}</td>
               <td style="color:#3B6D11">${resParCat[i]}</td>
               <td style="font-weight:600;color:${ouvParCat[i]-resParCat[i]>0?'#A32D2D':ouvParCat[i]-resParCat[i]<0?'#3B6D11':'var(--text2)'}">${ouvParCat[i]-resParCat[i]>0?'+':''}${ouvParCat[i]-resParCat[i]}</td>
