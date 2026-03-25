@@ -17,7 +17,7 @@ import os
 # ============================================================
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
 GITHUB_USER  = "ridolf974"
-GITHUB_REPO  = "tracker-problematiques"
+GITHUB_REPO  = "ManAlert"
 BRANCH       = "main"
 # ============================================================
 
